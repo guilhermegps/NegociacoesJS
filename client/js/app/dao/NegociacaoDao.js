@@ -4,13 +4,15 @@ class NegociacaoDao {
     this._store = 'negociacoes';
   }
 
+  _obtemConnectionStore(){
+    return this._connection
+      .transaction([this._store], 'readwrite') // connection.transaction(OBJECT STORES, TIPO DE OPERAÇÃO
+      .objectStore(this._store) // Pego a Object Store Transacional
+  }
+
   adiciona(negociacao){
     return new Promise((resolve, reject) => {
-      // Pego uma transação
-      let request = this._connection
-        .transaction([this._store], 'readwrite') // connection.transaction(OBJECT STORES, TIPO DE OPERAÇÃO
-        .objectStore(this._store) // Pego a Object Store Transacional
-        .add(negociacao); // Requisição para gravar na store
+      let request = this._obtemConnectionStore().add(negociacao); // Requisição para gravar na store
 
       request.onsuccess = e => {
         resolve();
@@ -25,10 +27,7 @@ class NegociacaoDao {
 
   apagaTodos() {
     return new Promise((resolve, reject) => {
-      let request = this._connection
-        .transaction([this._store], 'readwrite') // connection.transaction(OBJECT STORES, TIPO DE OPERAÇÃO
-        .objectStore(this._store) // Pego a Object Store Transacional
-        .clear();
+      let request = this._obtemConnectionStore().clear();
 
         request.onsuccess = e => resolve('Negociações removidas com sucesso.');
 
@@ -41,10 +40,7 @@ class NegociacaoDao {
 
   listaTodos(){
     return new Promise((resolve, reject) => {
-      let cursor = this._connection
-        .transaction([this._store], 'readwrite')
-        .objectStore(this._store)
-        .openCursor();// Ele que navega pela Object store
+      let cursor = this._obtemConnectionStore().openCursor();// Ele que navega pela Object store
 
       let negociacoes = [];
       cursor.onsuccess = e => {

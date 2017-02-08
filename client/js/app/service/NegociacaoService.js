@@ -17,6 +17,23 @@ class NegociacaoService {
     } );
   }
 
+  obterTodasNegociacoes(){
+    return Promise.all([// Resolve estas promesis nessa ordem
+            this.obterNegociacoesDaSemana(),
+            this.obterNegociacoesDaSemanaAnterior(),
+            this.obterNegociacoesDaSemanaRetrasada()
+        ]).then(periodos => {
+
+            let negociacoes = periodos
+                .reduce((dados, periodo) => dados.concat(periodo), [])// Vai retornar um array com todas as negociações concatenadas dentro
+                .map(dado => NegociacaoHelper.converterObjetoEmNegociacao(dado));
+
+            return negociacoes;
+        }).catch(erro => {
+            throw new Error(erro);
+        });
+  }
+
   obterNegociacoesDaSemana() {
     return this.obterNegociacoes('negociacoes/semana', 'Não foi possível obter as negociações da semana.');
   }
@@ -27,6 +44,17 @@ class NegociacaoService {
 
   obterNegociacoesDaSemanaAnterior() {
     return this.obterNegociacoes('negociacoes/anterior', 'Não foi possivel obter as negociações da semana anterior');
+  }
+
+  cadastra(negociacao){
+    return ConnectionFactory
+      .getConnection()
+      .then(connection => new NegociacaoDao(connection))
+      .then(dao => dao.adiciona(negociacao))
+      .then(() => 'Negociacao adicionada com sucesso.')
+      .catch(() => {
+        throw new Error('Não foi possível adicionar a negociacao.')
+      });
   }
 
   // obterNegociacoes(cb, caminho){ //Call Back

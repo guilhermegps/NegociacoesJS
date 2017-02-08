@@ -10,6 +10,10 @@ class NegociacaoController{
 
     this._mensagem = new Bind(new Mensagem(), new MensagemView($('#mensagemView')), 'texto');
 
+    this._init();
+  }
+
+  _init(){
     ConnectionFactory // Usando um nível mais avançado de promise
       .getConnection()
       .then(connection => new NegociacaoDao(connection))
@@ -23,26 +27,23 @@ class NegociacaoController{
         console.log(erro);
         this._mensagem.texto = erro;
       });
+
+      setInterval(() => this._importaNegociacoes(), 3000); // Executa no tempo determinado
   }
 
   adiciona(event) {
     event.preventDefault();
 
-    ConnectionFactory
-      .getConnection()
-      .then(connection => {
-        let negociacao = this._criaNegociacao();
-        new NegociacaoDao(connection)
-          .adiciona(negociacao)
-          .then(() => {
-            this._listaNegociacoes.adiciona(negociacao);
-            this._mensagem.texto = 'Negociação adicionada com sucesso.';
-            this._limpaFormulario();
-          });
+    let negociacao = this._criaNegociacao();
+
+    new NegociacaoService()
+      .cadastra(negociacao)
+      .then(mensagem => {
+        this._listaNegociacoes.adiciona(negociacao);
+        this._mensagem.texto = mensagem;
+        this._limpaFormulario();
       })
-      .catch(erro => {
-        this._mensagem.texto = erro;
-      });
+      .catch(erro => this._mensagem.texto = erro);
   }
 
   apaga(){
@@ -66,20 +67,25 @@ class NegociacaoController{
     );
   }
 
-  importaNegociacoes(){ // Requisições AJAX
+  _importaNegociacoes(){
     let service = new NegociacaoService();
 
-    Promise.all([service.obterNegociacoesDaSemana(),
-                service.obterNegociacoesDaSemanaAnterior(),
-                service.obterNegociacoesDaSemanaRetrasada()] // Resolve estas promesis nessa ordem
-    )
-    .then(negociacoes => {
-      negociacoes
-        .reduce((arrayAchatado, array) => arrayAchatado.concat(array), []) // Vai retornar um array com todas as negociações concatenadas dentro
-        .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-      this._mensagem.texto = 'Negociações da semana obtidas com sucesso.';
-    })
-    .catch(erro => this._mensagem.texto = erro); // Pega o erro da promesi que acabou de executar
+    service
+      .obterTodasNegociacoes()
+      .then(negociacoes =>
+        negociacoes.filter(negociacao => // Filtra o array de negociações com base na condição retornada
+          !this._listaNegociacoes.negociacoes // Negação do resultado do some
+            .some( // some() percorre o array até a condição ser true, caso nunca seja ele retorna false
+              // Realiza a comparação do JSON (string) dos objetos
+              negociacaoExistente => JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)
+            )
+        )
+      )
+      .then(negociacoes => {negociacoes
+          .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+        this._mensagem.texto = 'Negociações da semana obtidas com sucesso.';
+      })
+      .catch(erro => this._mensagem.texto = erro); // Pega o erro da promesi que acabou de executar
 
     /*let promise = service.obterNegociacoesDaSemana(); // padrão promise
 
