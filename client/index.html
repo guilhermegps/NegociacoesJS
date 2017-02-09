@@ -13,7 +13,7 @@
 
     <div id="mensagemView"></div>
 
-    <form class="form" onsubmit="negociacaoController.adiciona(event)">
+    <form class="form">
 
         <div class="form-group">
             <label for="data">Data</label>
@@ -37,7 +37,7 @@
         <!-- <button onclick="negociacaoController.importaNegociacoes()" class="btn btn-primary text-center" type="button">
             Importar Negociações
         </button> -->
-        <button onclick="negociacaoController.apaga()" class="btn btn-primary text-center" type="button">
+        <button class="btn btn-primary text-center" type="button">
             Apagar
         </button>
     </div>
@@ -46,62 +46,13 @@
 
   <div id="negociacoesView"></div>
 
-    <script src="js/app/model/ListaNegociacoes.js" charset="utf-8"></script>
-    <script src="js/app/model/Negociacao.js" charset="utf-8"></script>
-    <script src="js/app/model/Mensagem.js" charset="utf-8"></script>
-    <script src="js/app/controller/NegociacaoController.js" charset="utf-8"></script>
-    <script src="js/app/helper/DateHelper.js" charset="utf-8"></script>
-    <script src="js/app/helper/NegociacaoHelper.js" charset="utf-8"></script>
-    <script src="js/app/helper/Bind.js" charset="utf-8"></script>
-    <script src="js/app/view/ViewMaster.js" charset="utf-8"></script>
-    <script src="js/app/view/NegociacoesView.js" charset="utf-8"></script>
-    <script src="js/app/view/MensagemView.js" charset="utf-8"></script>
-    <script src="js/app/dao/NegociacaoDao.js" charset="utf-8"></script>
-    <script src="js/app/service/ProxyFactory.js" charset="utf-8"></script>
-    <script src="js/app/service/HttpService.js" charset="utf-8"></script>
-    <script src="js/app/service/NegociacaoService.js" charset="utf-8"></script>
-    <script src="js/app/service/ConnectionFactory.js" charset="utf-8"></script>
-    <!-- <script type="text/javascript">
-    //Utilizar o let ao invés de var para declarar variáveis, isso garante um funcionamento de bloco como de linguagens tipo java e c#
-      let n1 = new Negociacao(new Date(), 5, 700); // Instancia de um objeto da classe Negociacao
-      console.log(n1.data);
-      n1.data.setDate(12);
-      console.log(n1.data);
-    </script> -->
-    <script type="text/javascript">
-      let negociacaoController = new NegociacaoController();
-    </script>
-    <!-- <script type="text/javascript">
-      let lista = new Proxy(new ListaNegociacoes(), {
-        get: function(target, prop, receiver){ //Métodos e funções sempre são entendidos como get
-          if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)){// includes verifica se existe no array
-            return function(){
-              console.log(`Interceptando ${prop}`);
-              // Arguments é um objeto implicito com os parametro passados para a função
-              Reflect.apply(target[prop], target, arguments);
-            }
-          }
+    <script src="node_modules/systemjs/dist/system.js" charset="utf-8"></script>
 
-          return Reflect.get(target, prop, receiver);
-        }
-      });
-      lista.adiciona(new Negociacao(new Date(), 1, 35));
-    </script> -->
-    <!---------------------------------------------- PROXY ----------------------------------------------
     <script type="text/javascript">
-      let negociacao = new Proxy(new Negociacao(new Date(), 1, 20), {
-        // Armadilha - trap
-        get: function(target, prop, receiver){ // target = Objeto original; prop = Propriedade sendo acessada; receiver = referencia ao proxy
-          console.log(`Propriedade "${prop}" interceptada`);
-          return Reflect.get(target, prop, receiver);
-        },
-        set: function(target, prop, value, receiver){ // value = O valor que será adicionado a propriedade
-          console.log(`Valor atual = "${target[prop]}"; Valor Atribuido = "${value}"`);
-          return Reflect.set(target, prop, value, receiver);
-        }
+      System.defaultJSExtensions = true; // permite a extensão .js dos imports
+      System.import('js/app/boot').catch(function(err){ // carrega o boot.js
+        console.error(err);
       });
-      negociacao._quantidade = 4;
-      negociacao._valor = 10;
-    </script> -->
+    </script>
 </body>
 </html>

@@ -9,6 +9,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _HttpService = require('./HttpService');
 
+var _Negociacao = require('../model/Negociacao');
+
 var _ConnectionFactory = require('./ConnectionFactory');
 
 var _NegociacaoDao = require('../dao/NegociacaoDao');

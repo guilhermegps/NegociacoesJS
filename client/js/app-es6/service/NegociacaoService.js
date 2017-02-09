@@ -1,4 +1,5 @@
 import {HttpService} from './HttpService';
+import {Negociacao} from '../model/Negociacao';
 import {ConnectionFactory} from './ConnectionFactory';
 import {NegociacaoDao} from '../dao/NegociacaoDao';
 import {NegociacaoHelper} from '../helper/NegociacaoHelper';
