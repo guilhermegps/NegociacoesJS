@@ -78,3 +78,4 @@ var ConnectionFactory = function () {
     return ConnectionFactory;
   }();
 }(); // Uma função autoinvocada, que executa logo após ser carregada
+//# sourceMappingURL=ConnectionFactory.js.map

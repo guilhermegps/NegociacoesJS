@@ -27,3 +27,4 @@ var MensagemView = function (_ViewMaster) {
 
   return MensagemView;
 }(ViewMaster);
+//# sourceMappingURL=MensagemView.js.map

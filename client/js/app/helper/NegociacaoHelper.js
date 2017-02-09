@@ -20,3 +20,4 @@ var NegociacaoHelper = function () {
 
   return NegociacaoHelper;
 }();
+//# sourceMappingURL=NegociacaoHelper.js.map

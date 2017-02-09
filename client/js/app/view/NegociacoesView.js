@@ -31,3 +31,4 @@ var NegociacoesView = function (_ViewMaster) {
 
   return NegociacoesView;
 }(ViewMaster);
+//# sourceMappingURL=NegociacoesView.js.map

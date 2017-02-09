@@ -26,3 +26,4 @@ var ViewMaster = function () {
 
   return ViewMaster;
 }();
+//# sourceMappingURL=ViewMaster.js.map
