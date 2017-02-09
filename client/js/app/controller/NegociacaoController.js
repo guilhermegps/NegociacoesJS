@@ -10,23 +10,20 @@ class NegociacaoController{
 
     this._mensagem = new Bind(new Mensagem(), new MensagemView($('#mensagemView')), 'texto');
 
+    this._service = new NegociacaoService();
+
     this._init();
   }
 
   _init(){
-    ConnectionFactory // Usando um nível mais avançado de promise
-      .getConnection()
-      .then(connection => new NegociacaoDao(connection))
-      .then(dao => dao.listaTodos())
+    this._service
+      .lista()
       .then(negociacoes =>
         negociacoes.forEach(negociacao =>
           this._listaNegociacoes.adiciona(negociacao)
         )
       )
-      .catch(erro => {
-        console.log(erro);
-        this._mensagem.texto = erro;
-      });
+      .catch(erro => this._mensagem.texto = erro);
 
       setInterval(() => this._importaNegociacoes(), 3000); // Executa no tempo determinado
   }
@@ -36,7 +33,7 @@ class NegociacaoController{
 
     let negociacao = this._criaNegociacao();
 
-    new NegociacaoService()
+    this._service
       .cadastra(negociacao)
       .then(mensagem => {
         this._listaNegociacoes.adiciona(negociacao);
@@ -47,14 +44,13 @@ class NegociacaoController{
   }
 
   apaga(){
-    ConnectionFactory
-      .getConnection()
-      .then(connection => new NegociacaoDao(connection))
-      .then(dao => dao.apagaTodos())
+    this._service
+      .apaga()
       .then(mensagem => {
         this._mensagem.texto = mensagem;
         this._listaNegociacoes.esvazia();
-      });
+      })
+      .catch(erro => this._mensagem.texto = erro);
   }
 
   _criaNegociacao() {
@@ -68,45 +64,13 @@ class NegociacaoController{
   }
 
   _importaNegociacoes(){
-    let service = new NegociacaoService();
-
-    service
-      .obterTodasNegociacoes()
-      .then(negociacoes =>
-        negociacoes.filter(negociacao => // Filtra o array de negociações com base na condição retornada
-          !this._listaNegociacoes.negociacoes // Negação do resultado do some
-            .some( // some() percorre o array até a condição ser true, caso nunca seja ele retorna false
-              // Realiza a comparação do JSON (string) dos objetos
-              negociacaoExistente => JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)
-            )
-        )
-      )
-      .then(negociacoes => {negociacoes
-          .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-        this._mensagem.texto = 'Negociações da semana obtidas com sucesso.';
-      })
-      .catch(erro => this._mensagem.texto = erro); // Pega o erro da promesi que acabou de executar
-
-    /*let promise = service.obterNegociacoesDaSemana(); // padrão promise
-
-    promise
-      .then((negociacoes) => {
-        negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-        this._mensagem.texto = 'Negociações da semana obtidas com sucesso.';
-      })
-      .catch(erro => {
-        this._mensagem.texto = erro;
-      });*/
-
-    /*service.obterNegociacoesDaSemana((erro, negociacoes) => { // função de Call Back
-      if(erro){ // Convenção, error first
-        this._mensagem.texto = erro;
-        return;
-      }
-
-      negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-      this._mensagem.texto = 'Negociações importadas com sucesso'
-    });*/
+    this._service
+    .importa(this._listaNegociacoes.negociacoes)
+    .then(negociacoes => {negociacoes.forEach(negociacao =>
+        this._listaNegociacoes.adiciona(negociacao));
+      this._mensagem.texto = 'Negociações importadas com sucesso.';
+    })
+    .catch(erro => this._mensagem.texto = erro); // Pega o erro da promesi que acabou de executar
   }
 
   _limpaFormulario() {
@@ -116,35 +80,4 @@ class NegociacaoController{
 
     this._inputData.focus();
   }
-
-  // adiciona(event) {
-  //   event.preventDefault();
-  //
-  //   //new Date('ANO', 'MES', 'DIA')
-  //   //let data = new Date(this._inputData.value.split('-'));
-  //   let data = new Date(... //Spread operator - o array é desmembrado e cada elemento dele é passado como um parâmetro do construtor
-  //     this._inputData.value
-  //       .split('-')
-  //       .map(function(item, indice){ //Percorre o array e aplica uma ação sobre os item dele, depois retorna o array modificado
-  //         if(indice==1){ // se for o segundo item do array
-  //           return item - 1;
-  //         }
-  //         return item;
-  //       })
-  //   );
-  //
-  //   console.log(data);
-  // }
-
-  // adiciona(event) {
-  //   event.preventDefault();
-  //
-  //   let negociacao = new Negociacao(
-  //     this._inputData.value,
-  //     this._inputQuantidade.value,
-  //     this._inputValor.value
-  //   );
-  //
-  //   console.log(negociacao);
-  // }
 }
