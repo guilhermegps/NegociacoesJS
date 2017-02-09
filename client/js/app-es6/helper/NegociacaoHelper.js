@@ -1,4 +1,4 @@
-class NegociacaoHelper {
+export class NegociacaoHelper {
   constructor() {
     throw new Error('NegociacaoHelper não pode ser instânciada.');
   }

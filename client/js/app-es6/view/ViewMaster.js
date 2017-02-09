@@ -1,4 +1,4 @@
-class ViewMaster {
+export class ViewMaster {
   constructor(elemento) {
     this._elemento = elemento;
   }

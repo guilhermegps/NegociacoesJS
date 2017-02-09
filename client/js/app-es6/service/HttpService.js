@@ -1,4 +1,4 @@
-class HttpService {
+export class HttpService {
   _handleErrors(res){
     if(!res.ok) // O 'ok', se a resposta for obtida com status entre 200 e 299 ele retorna true
       throw Error(res.statusText); // Mensagem de erro de status

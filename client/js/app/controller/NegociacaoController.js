@@ -2,6 +2,22 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _ListaNegociacoes = require('../modelo/ListaNegociacoes');
+
+var _Negociacao = require('../model/Negociacao');
+
+var _Mensagem = require('../model/Mensagem');
+
+var _NegociacaoService = require('../service/NegociacaoService');
+
+var _MensagemView = require('../view/MensagemView');
+
+var _NegociacoesView = require('../view/NegociacoesView');
+
+var _Bind = require('../helper/Bind');
+
+var _DateHelper = require('../helper/DateHelper');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var NegociacaoController = function () {
@@ -14,11 +30,11 @@ var NegociacaoController = function () {
     this._inputQuantidade = $('#quantidade');
     this._inputValor = $('#valor');
 
-    this._listaNegociacoes = new Bind(new ListaNegociacoes(), new NegociacoesView($('#negociacoesView')), 'adiciona', 'esvazia');
+    this._listaNegociacoes = new _Bind.Bind(new _ListaNegociacoes.ListaNegociacoes(), new _NegociacoesView.NegociacoesView($('#negociacoesView')), 'adiciona', 'esvazia');
 
-    this._mensagem = new Bind(new Mensagem(), new MensagemView($('#mensagemView')), 'texto');
+    this._mensagem = new _Bind.Bind(new _Mensagem.Mensagem(), new _MensagemView.MensagemView($('#mensagemView')), 'texto');
 
-    this._service = new NegociacaoService();
+    this._service = new _NegociacaoService.NegociacaoService();
 
     this._init();
   }
@@ -72,9 +88,9 @@ var NegociacaoController = function () {
   }, {
     key: '_criaNegociacao',
     value: function _criaNegociacao() {
-      var data = DateHelper.textForDate(this._inputData.value);
+      var data = _DateHelper.DateHelper.textForDate(this._inputData.value);
 
-      return new Negociacao(data, parseInt(this._inputQuantidade.value), parseFloat(this._inputValor.value));
+      return new _Negociacao.Negociacao(data, parseInt(this._inputQuantidade.value), parseFloat(this._inputValor.value));
     }
   }, {
     key: '_importaNegociacoes',

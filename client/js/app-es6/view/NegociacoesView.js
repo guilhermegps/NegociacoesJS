@@ -1,4 +1,6 @@
-class NegociacoesView extends ViewMaster {
+import {ViewMaster} from './ViewMaster';
+
+export class NegociacoesView extends ViewMaster {
   constructor(elemento){
     super(elemento);
   }

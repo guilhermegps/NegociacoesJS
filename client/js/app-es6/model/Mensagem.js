@@ -1,4 +1,4 @@
-class Mensagem {
+export class Mensagem {
   constructor(texto='') { // Valor padrão para op parâmetro, para caso não tenha sido informado
     this._texto = texto;
   }

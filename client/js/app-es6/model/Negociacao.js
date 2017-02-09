@@ -1,4 +1,4 @@
-class Negociacao {
+export class Negociacao {
   constructor(data, quantidade, valor) { //É no construtor que eu declaro os atributos da classe Javascript
     this._data = new Date(data); // Pega a data atual
     this._quantidade = quantidade; // O _ antes do nome da váriavel é uma CONVENÇÃO para indicar que esta é uma variavel "privada" (já que não existe este conceito atualmente no Javascript)

@@ -1,8 +1,15 @@
-"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Bind = undefined;
+
+var _ProxyFactory = require('../service/ProxyFactory');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Bind = function Bind(model, view) {
+var Bind = exports.Bind = function Bind(model, view) {
   _classCallCheck(this, Bind);
 
   for (var _len = arguments.length, props = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
@@ -10,8 +17,8 @@ var Bind = function Bind(model, view) {
   }
 
   // Esses '...' são o rest operator determina que todos os parametros passados apartir dali serão armazenados em um erray
-  //O Rest Operator tem que ser sempre o ultimo parâmetro 
-  var proxy = ProxyFactory.create(model, props, function (model) {
+  //O Rest Operator tem que ser sempre o ultimo parâmetro
+  var proxy = _ProxyFactory.ProxyFactory.create(model, props, function (model) {
     return view.update(model);
   });
 

@@ -1,10 +1,17 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.NegociacaoDao = undefined;
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Negociacao = require('../model/Negociacao');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var NegociacaoDao = function () {
+var NegociacaoDao = exports.NegociacaoDao = function () {
   function NegociacaoDao(connection) {
     _classCallCheck(this, NegociacaoDao);
 
@@ -69,7 +76,7 @@ var NegociacaoDao = function () {
           if (atual) {
             // Se houver dados sendo lidos
             var dado = atual.value; // Pegando o dado real do ponteiro
-            negociacoes.push(new Negociacao(dado._data, dado._quantidade, dado._valor));
+            negociacoes.push(new _Negociacao.Negociacao(dado._data, dado._quantidade, dado._valor));
             atual.continue(); // Manda ir para o proximo
           } else {
             resolve(negociacoes);
