@@ -1,33 +1,62 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+System.register([], function (_export, _context) {
+  "use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+  var _createClass, ViewMaster;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ViewMaster = exports.ViewMaster = function () {
-  function ViewMaster(elemento) {
-    _classCallCheck(this, ViewMaster);
-
-    this._elemento = elemento;
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
   }
 
-  _createClass(ViewMaster, [{
-    key: 'template',
-    value: function template() {
-      // Para sobreescrita
-      throw new Error('O método template deve ser implementado');
-    }
-  }, {
-    key: 'update',
-    value: function update(model) {
-      this._elemento.innerHTML = this.template(model);
-    }
-  }]);
+  return {
+    setters: [],
+    execute: function () {
+      _createClass = function () {
+        function defineProperties(target, props) {
+          for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+          }
+        }
 
-  return ViewMaster;
-}();
+        return function (Constructor, protoProps, staticProps) {
+          if (protoProps) defineProperties(Constructor.prototype, protoProps);
+          if (staticProps) defineProperties(Constructor, staticProps);
+          return Constructor;
+        };
+      }();
+
+      _export('ViewMaster', ViewMaster = function () {
+        function ViewMaster(elemento) {
+          _classCallCheck(this, ViewMaster);
+
+          this._elemento = elemento;
+        }
+
+        _createClass(ViewMaster, [{
+          key: 'template',
+          value: function template() {
+            // Para sobreescrita
+            throw new Error('O método template deve ser implementado');
+          }
+        }, {
+          key: 'update',
+          value: function update(model) {
+            this._elemento.innerHTML = this.template(model);
+          }
+        }]);
+
+        return ViewMaster;
+      }());
+
+      _export('ViewMaster', ViewMaster);
+    }
+  };
+});
 //# sourceMappingURL=ViewMaster.js.map

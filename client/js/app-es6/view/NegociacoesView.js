@@ -1,4 +1,5 @@
 import {ViewMaster} from './ViewMaster';
+import {DateHelper} from '../helper/DateHelper';
 
 export class NegociacoesView extends ViewMaster {
   constructor(elemento){

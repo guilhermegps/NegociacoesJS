@@ -1,4 +1,4 @@
-import {ListaNegociacoes} from '../modelo/ListaNegociacoes';
+import {ListaNegociacoes} from '../model/ListaNegociacoes';
 import {Negociacao} from '../model/Negociacao';
 import {Mensagem} from '../model/Mensagem';
 import {NegociacaoService} from '../service/NegociacaoService';
@@ -7,7 +7,7 @@ import {NegociacoesView} from '../view/NegociacoesView';
 import {Bind} from '../helper/Bind';
 import {DateHelper} from '../helper/DateHelper';
 
-class NegociacaoController{
+export class NegociacaoController{
   constructor() {
     let $ = document.querySelector.bind(document); // Macete para diminuir a repetição do método, similar ao JQuery
 
